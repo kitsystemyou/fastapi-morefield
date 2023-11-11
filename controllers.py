@@ -24,9 +24,8 @@ def admin(request: Request):
     user = db.session.query(User).filter(User.username == 'admin').first()
     task = db.session.query(Task).filter(Task.user_id == user.id).all()
     db.session.close()
- 
+
     return templates.TemplateResponse('admin.html',
                                       {'request': request,
                                        'user': user,
                                        'task': task})
-
