@@ -27,7 +27,6 @@ if __name__ == "__main__":
 
     # サンプルスコア
     score = Score(
-        id=1,
         player_name='とわえもあ',
         point=3,
         kind='一位',
