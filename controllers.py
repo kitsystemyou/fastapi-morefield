@@ -17,6 +17,7 @@ templates = Jinja2Templates(directory="templates")
 jinja_env = templates.env  # Jinja2.Environment : filterやglobalの設定用
 
 
+@app.get("/")
 def index(request: Request):
     user = db.session.query(User).filter(User.username == 'admin').first()
     task = db.session.query(Task).filter(Task.user_id == user.id).all()
@@ -29,16 +30,13 @@ def index(request: Request):
                                        'score': score})
 
 
-def admin(request: Request):
-    # ユーザとタスクを取得
-    # とりあえず今はadminユーザのみ取得
+@app.get("/moa")
+async def admin(request: Request):
     user = db.session.query(User).filter(User.username == 'admin').first()
-    task = db.session.query(Task).filter(Task.user_id == user.id).all()
     score = db.session.query(Score).all()
     db.session.close()
 
     return templates.TemplateResponse('admin.html',
                                       {'request': request,
                                        'user': user,
-                                       'task': task,
                                        'score': score})
