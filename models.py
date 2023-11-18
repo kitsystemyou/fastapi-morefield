@@ -129,13 +129,13 @@ class Score(Base):
     )
 
     def __init__(self,
-                 id: int,
+                 #  id: int,
                  player_name: str,
                  point: int,
                  kind: str,
                  tag: str,
                  date: datetime = datetime.now()):
-        self.id = id
+        # self.id = id
         self.player_name = player_name
         self.point = point
         self.kind = kind

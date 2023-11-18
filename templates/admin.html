@@ -3,67 +3,129 @@
 <br>
 <h2 class="text-5xl font-bold underline">MOA FIELD Admin Console </h2>
 
-<br>
-<img src="templates/static/morefield.jpg" alt="MoreField" width="600px">
+<img 
+    class="mt-6 object-contain rounded-lg shadow-md max-w-xl"
+    src="templates/static/morefield.jpg" alt="MoreField">
 <br>
 <hr>
 <br>
-<!-- 
-<table class="table">
-    <thead class="table-dark">
-    <tr>
-        <th>#</th>
-        <th>内容</th>
-        <th>締め切り</th>
-        <th>掲載日</th>
-        <th>終了</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for t in task %}
-    <tr>
-        <td>{{ t['id'] }}</td>
-        <td>{{ t['content'] }}</td>
-        <td>{{ t['deadline'] }}</td>
-        <td>{{ t['date'] }}</td>
-        <td>{% if t['done'] %}
-            <div class="text-success">済</div>
-            {% else %}
-            <div class="text-danger">未</div>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table> -->
 
-<div class="h-400 lative overflow-y-auto">
-<table class="table-auto">
-    <thead class="text-lg text-gray-50 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white-400">
-    <tr>
-        <th class="px-4">登録番号</th>
-        <th class="px-4">プレイヤー名</th>
-        <th class="px-4">加点種類</th>
-        <th class="px-4">点数</th>
-        <th class="px-4">タグ</th>
-        <th class="px-4">日付</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for s in score %}
-    <tr class="bg-white-200">
-        <td class="border px-4 py-4">{{ s['id'] }}</td>
-        <td class="border px-t py-2">{{ s['player_name'] }}</td>
-        <td class="border px-t py-2">{{ s['kind'] }}</td>
-        <td class="border px-t py-2">{{ s['point'] }}</td>
-        <td class="border px-t py-2">{{ s['tag'] }}</td>
-        <td class="border px-t py-2">{{ s['date'] }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<div class="m-3">
-    <button class="px-2 py-1 bg-blue-400 text-white font-semibold rounded hover:bg-blue-500">追加登録</button>
+<div class="h-5/6 lative overflow-y-auto">
+  <table class="table-auto">
+      <thead class="text-base text-gray-50 bg-gray-50 dark:bg-gray-700 dark:text-white-400">
+      <tr>
+          <th class="px-4">登録番号</th>
+          <th class="px-4">プレイヤー名</th>
+          <th class="px-4">加点種類</th>
+          <th class="px-4">点数</th>
+          <th class="px-4">タグ</th>
+          <th class="px-4">データ登録日時</th>
+          <th class="px-4">削除ボタン</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for s in score %}
+      <tr class="bg-white-200">
+          <td class="border px-4 py-4">{{ s['id'] }}</td>
+          <td class="border px-t py-2">{{ s['player_name'] }}</td>
+          <td class="border px-t py-2">{{ s['kind'] }}</td>
+          <td class="border px-t py-2">{{ s['point'] }}</td>
+          <td class="border px-t py-2">{{ s['tag'] }}</td>
+          <td class="border px-t py-2">{{ s['date'] }}</td>
+          <td class="border px-t py-2">
+            <div class="m-3">
+              <button href="/moa" class="px-2 py-1 bg-blue-400 text-white font-semibold rounded hover:bg-blue-500">
+                {{ s['id'] }}, {{ s['player_name']}} を削除
+              </button>
+            </div>
+          </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
 </div>
-</div>
+<br>
+<hr>
+<form action="/moa" method="post" class="w-full max-w-2xl">
+    <p class="text-2xl text-black font-bold text-center mb-5">
+      新規データ追加
+    </p>
+    <div class="md:flex md:items-center mb-6">
+      <div class="md:w-1/3">
+        <label
+          class="block text-black font-bold md:text-right mb-1 md:mb-0 pr-4"
+          htmlFor="inline-last-name">
+          プレイヤ―名
+        </label>
+      </div>
+      <div class="md:w-2/3">
+        <input
+          class="bg-gray-200 appearance-none border-2 border-gray-400 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-cyan-500"
+          type="text"
+          name="player_name"
+          defaultValue=""
+          placeholder="プレイヤー名"
+        />
+      </div>
+    </div>
+    <div class="md:flex md:items-center mb-6">
+      <div class="md:w-1/3">
+        <label
+          class="block text-black font-bold md:text-right mb-1 md:mb-0 pr-4"
+          htmlFor="inline-first-name">
+            加点種類
+        </label>
+      </div>
+
+      <div class="md:w-2/3">
+        <input
+          class="bg-gray-200 appearance-none border-2 border-gray-400 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-cyan-500"
+          type="text"
+          name="kind"
+          defaultValue=""
+          placeholder="例) あぶないキネ直撃"
+        />
+      </div>
+    </div>
+
+    <div class="md:flex md:items-center mb-6">
+      <div class="md:w-1/3">
+        <label class="block text-black font-bold md:text-right mb-1 md:mb-0 pr-4">
+          点数
+        </label>
+      </div>
+      <div class="md:w-2/3">
+        <input
+          class="bg-gray-200 appearance-none border-2 border-gray-400 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-cyan-500"
+          type="text"
+          name="point"
+          defaultValue=""
+          placeholder="点数"
+        />
+      </div>
+    </div>
+
+    <div class="md:flex md:items-center mb-6">
+      <div class="md:w-1/3">
+        <label class="block text-black font-bold md:text-right mb-1 md:mb-0 pr-4">
+          タグ
+        </label>
+      </div>
+      <div class="md:w-2/3">
+        <input
+          class="bg-gray-200 appearance-none border-2 border-gray-400 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-cyan-500"
+          type="text"
+          name="tag"
+          defaultValue=""
+          placeholder="例) 昼の部第一戦"
+        />
+      </div>
+    </div>
+    <div class="m-3">
+        <button type="submit" class="px-2 py-1 bg-blue-400 text-white font-semibold rounded hover:bg-blue-500">
+            登録
+        </button>
+    </div>
+  </form>
+
 {% endblock %}
