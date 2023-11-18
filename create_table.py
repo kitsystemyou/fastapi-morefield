@@ -1,4 +1,4 @@
-from models import User, Task, Base, SQLITE3_NAME
+from models import User, Task, Score, Base, SQLITE3_NAME
 from datetime import datetime
 
 import db
@@ -24,7 +24,29 @@ if __name__ == "__main__":
         deadline=datetime(2019, 12, 25, 12, 00, 00),
     )
     print(task)
-    db.session.add(task)
+
+    # サンプルスコア
+    score = Score(
+        id=1,
+        player_name='とわえもあ',
+        point=3,
+        kind='一位',
+        tag='第一戦',
+        date=datetime(2023, 12, 25, 12, 00, 00),
+    )
+
+    db.session.add(score)
+    db.session.commit()
+
+    score2 = Score(
+        id=2,
+        player_name='陽',
+        point=2,
+        kind='二位',
+        tag='第一戦',
+        date=datetime(2023, 12, 25, 12, 00, 00),
+    )
+    db.session.add(score2)
     db.session.commit()
 
     db.session.close()  # セッションを閉じる

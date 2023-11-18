@@ -1,11 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
 <br>
-<h2>Administrator page</h2>
-<hr>
-<p>Hi, {{ user['username'] }}.</p>
- 
+<center>
+<h2 class="text-5xl font-bold underline">MOA FIELD Admin Console </h2>
+
 <br>
+<img src="templates/static/morefield.jpg" alt="MoreField" width="600px">
+<br>
+<hr>
+<br>
+<!-- 
 <table class="table">
     <thead class="table-dark">
     <tr>
@@ -32,6 +36,36 @@
     </tr>
     {% endfor %}
     </tbody>
+</table> -->
+
+<div class="h-400 lative overflow-y-auto">
+<table class="table-auto">
+    <thead class="text-lg text-gray-50 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white-400">
+    <tr>
+        <th class="px-4">登録番号</th>
+        <th class="px-4">プレイヤー名</th>
+        <th class="px-4">加点種類</th>
+        <th class="px-4">点数</th>
+        <th class="px-4">タグ</th>
+        <th class="px-4">日付</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for s in score %}
+    <tr class="bg-white-200">
+        <td class="border px-4 py-4">{{ s['id'] }}</td>
+        <td class="border px-t py-2">{{ s['player_name'] }}</td>
+        <td class="border px-t py-2">{{ s['kind'] }}</td>
+        <td class="border px-t py-2">{{ s['point'] }}</td>
+        <td class="border px-t py-2">{{ s['tag'] }}</td>
+        <td class="border px-t py-2">{{ s['date'] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
 </table>
- 
+<div class="m-3">
+    <button class="px-2 py-1 bg-blue-400 text-white font-semibold rounded hover:bg-blue-500">追加登録</button>
+</div>
+</div>
+</center>
 {% endblock %}
