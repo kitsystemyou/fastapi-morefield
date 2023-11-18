@@ -35,18 +35,18 @@ if __name__ == "__main__":
         date=datetime(2023, 12, 25, 12, 00, 00),
     )
 
-    db.session.add(score)
-    db.session.commit()
+    # db.session.add(score)
+    # db.session.commit()
 
-    score2 = Score(
-        id=2,
-        player_name='陽',
-        point=2,
-        kind='二位',
-        tag='第一戦',
-        date=datetime(2023, 12, 25, 12, 00, 00),
-    )
-    db.session.add(score2)
+    # score2 = Score(
+    #     id=2,
+    #     player_name='陽',
+    #     point=2,
+    #     kind='二位',
+    #     tag='第一戦',
+    #     date=datetime(2023, 12, 25, 12, 00, 00),
+    # )
+    # db.session.add(score2)
     db.session.commit()
 
     db.session.close()  # セッションを閉じる
