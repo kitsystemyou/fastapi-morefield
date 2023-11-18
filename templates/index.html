@@ -3,39 +3,38 @@
 <br>
 <div class="row">
     <div class="col-md-10">
-        <h1>Welcome to MoreField Result App!</h1>
+        <h1 class="text-5xl font-bold underline">Welcome to MoreField Result App!</h1>
     </div>
     <!-- <div class="col-md-2">
         <a href="/admin" class="btn btn-primary">Login</a>
     </div> -->
 </div>
-<table class="table">
-    <thead class="table-dark">
-    <tr>
-        <th>#</th>
-        <th>内容</th>
-        <th>締め切り</th>
-        <th>掲載日</th>
-        <th>終了</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for t in task %}
-    <tr>
-        <td>{{ t['id'] }}</td>
-        <td>{{ t['content'] }}</td>
-        <td>{{ t['deadline'] }}</td>
-        <td>{{ t['date'] }}</td>
-        <td>{% if t['done'] %}
-            <div class="text-success">済</div>
-            {% else %}
-            <div class="text-danger">未</div>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<br>
+<div class="h-400 lative overflow-y-auto">
+    <table class="table-auto">
+        <thead class="text-lg text-gray-50 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white-400">
+        <tr>
+            <th class="px-4">登録番号</th>
+            <th class="px-4">プレイヤー名</th>
+            <th class="px-4">加点種類</th>
+            <th class="px-4">点数</th>
+            <th class="px-4">タグ</th>
+            <th class="px-4">日付</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for s in score %}
+        <tr class="bg-white-200">
+            <td class="border px-4 py-4">{{ s['id'] }}</td>
+            <td class="border px-t py-2">{{ s['player_name'] }}</td>
+            <td class="border px-t py-2">{{ s['kind'] }}</td>
+            <td class="border px-t py-2">{{ s['point'] }}</td>
+            <td class="border px-t py-2">{{ s['tag'] }}</td>
+            <td class="border px-t py-2">{{ s['date'] }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 <hr>
 <p>This is a simple toDo application powered by <b>FastAPI</b>!</p>

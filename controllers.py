@@ -20,10 +20,13 @@ jinja_env = templates.env  # Jinja2.Environment : filterやglobalの設定用
 def index(request: Request):
     user = db.session.query(User).filter(User.username == 'admin').first()
     task = db.session.query(Task).filter(Task.user_id == user.id).all()
+    score = db.session.query(Score).all()
     db.session.close()
     return templates.TemplateResponse('index.html',
                                       {'request': request,
-                                       'task': task})
+                                       'user': user,
+                                       'task': task,
+                                       'score': score})
 
 
 def admin(request: Request):
