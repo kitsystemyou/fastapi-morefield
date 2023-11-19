@@ -20,7 +20,7 @@ templates = Jinja2Templates(directory="templates")
 jinja_env = templates.env  # Jinja2.Environment : filterやglobalの設定用
 
 
-logger = getLogger(__name__)
+logger = getLogger("uvicorn.app")
 logger.addHandler(StreamHandler())
 logger.setLevel("INFO")
 
@@ -70,5 +70,16 @@ async def postmoa(request: Request):
     db.session.add(score)
     db.session.commit()
     db.session.close()
+
+    return RedirectResponse(url=app.url_path_for("moa"), status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.get("/moa/delete/{id}")
+async def delete_score(request: Request):
+    score = db.session.query(Score).filter(Score.id == request.path_params['id']).first()
+    db.session.delete(score)
+    db.session.commit()
+    db.session.close()
+    logger.info("delete score id: %s", request.path_params['id'])
 
     return RedirectResponse(url=app.url_path_for("moa"), status_code=status.HTTP_303_SEE_OTHER)

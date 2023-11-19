@@ -8,7 +8,15 @@
     src="templates/static/morefield.jpg" alt="MoreField">
 <br>
 <hr>
-<br>
+
+<div class="m-3">
+  <button
+  type="button"
+  onclick="location.href='/'"
+  class="px-2 py-1 bg-cyan-300 text-white font-semibold rounded hover:bg-cyan-500">
+    閲覧側ページへ
+  </button>
+</div>
 
 <div class="h-5/6 w-9/12 relative overflow-y-auto rounded-t-lg">
   <table class="table-auto min-w-full">
@@ -34,7 +42,10 @@
           <td class="border px-t py-2">{{ s['date'] }}</td>
           <td class="border px-t py-2">
             <div class="m-3">
-              <button href="/moa" class="px-2 py-1 bg-blue-400 text-white font-semibold rounded hover:bg-blue-500">
+              <button
+              type="button"
+              onclick="location.href='{{"/moa/delete/" ~ s['id'] }}'"
+              class="px-2 py-1 bg-blue-400 text-white font-semibold rounded hover:bg-blue-500">
                 {{ s['id'] }}, {{ s['player_name']}} を削除
               </button>
             </div>
