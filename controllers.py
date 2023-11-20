@@ -1,5 +1,5 @@
 from fastapi import FastAPI, status
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 from models import User, Task, Score
@@ -23,6 +23,11 @@ jinja_env = templates.env  # Jinja2.Environment : filterやglobalの設定用
 logger = getLogger("uvicorn.app")
 logger.addHandler(StreamHandler())
 logger.setLevel("INFO")
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse('/templates/static/favicon.ico')
 
 
 @app.get("/")
