@@ -108,7 +108,6 @@ class Score(Base):
     date       : 日付
     """
     __tablename__ = 'score'
-    # TODO: columnの追加
     id = Column(
         'id',
         INTEGER(unsigned=True),

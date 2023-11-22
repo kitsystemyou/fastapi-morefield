@@ -1,12 +1,17 @@
+from __future__ import annotations
 from fastapi import FastAPI, status
 from fastapi.responses import RedirectResponse, FileResponse
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
-from models import User, Task, Score
+from models import User, Score
 from fastapi.staticfiles import StaticFiles
 from logging import getLogger, StreamHandler
 import db
 import re
+from sqlalchemy import func
+from sqlalchemy.engine.row import Row
+from datetime import datetime
+import gc
 
 app = FastAPI(
     title='MoreField',
@@ -33,23 +38,34 @@ async def favicon():
 @app.get("/")
 async def index(request: Request):
     user = db.session.query(User).filter(User.username == 'admin').first()
-    task = db.session.query(Task).filter(Task.user_id == user.id).all()
-    score = db.session.query(Score).all()
+    score: list[Row] = db.session.query(
+        Score.id,
+        Score.player_name,
+        Score.kind,
+        func.sum(Score.point).label('point'),
+        Score.tag,
+        Score.date.label('date')).group_by(Score.player_name, Score.tag).all()
+    new_score = []
+    for s in score:
+        ns = s._asdict()
+        ns['date'] = ns['date'].strftime('%Y-%m-%d %H:%M:%S')
+        new_score.append(ns)
+        del s
+        gc.collect()
     db.session.close()
     return templates.TemplateResponse('index.html',
                                       {'request': request,
                                        'user': user,
-                                       'task': task,
-                                       'score': score})
+                                       'score': new_score})
 
 
 @app.get("/moa")
 async def moa(request: Request):
     user = db.session.query(User).filter(User.username == 'admin').first()
     score = db.session.query(Score).all()
+    db.session.close()
     for s in score:
         s.date = s.date.strftime('%Y-%m-%d %H:%M:%S')
-    db.session.close()
 
     return templates.TemplateResponse('admin.html',
                                       {'request': request,
@@ -61,17 +77,14 @@ async def moa(request: Request):
 async def postmoa(request: Request):
     pattern = re.compile(r"^([0-9])*")
     data = await request.form()
-    logger.info("body, request: %s", data.get("player_name"))
-    logger.info("body, request: %s", data.get("kind"))
-    logger.info("body, request: %s", data.get("point"))
-    logger.info("body, request: %s", data.get("tag"))
     if pattern.fullmatch(data.get("point")) is None:
         logger.info("invalid point")
         return RedirectResponse(url=app.url_path_for("moa"), status_code=status.HTTP_303_SEE_OTHER)
     score = Score(player_name=data.get("player_name"),
                   kind=data.get("kind"),
                   point=data.get("point"),
-                  tag=data.get("tag"))
+                  tag=data.get("tag"),
+                  date=datetime.now())
     db.session.add(score)
     db.session.commit()
     db.session.close()
